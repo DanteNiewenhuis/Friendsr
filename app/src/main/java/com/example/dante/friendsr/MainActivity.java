@@ -20,8 +20,12 @@ public class MainActivity extends AppCompatActivity {
             String[] name_list = {"arya", "cersei", "deanerys", "jon", "jorah", "margaery",
                                   "melisandre", "sansa", "tyrion"};
             for (String name : name_list) {
-                String bio = "This is a placeholder for the bio off " + name;
-
+                String bio = "This is a placeholder for the bio off " + name +
+                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In in neque " +
+                             "ac arcu venenatis ornare ut sit amet dolor. Pellentesque quis tellus " +
+                             "in ante placerat aliquet. Quisque eu risus eget metus ornare dignissim " +
+                             "ac vitae leo. Pellentesque sed sagittis nisl. Donec quis elementum " +
+                             "velit.";
                 int drawID = getResources().getIdentifier(name, "id", getPackageName());
                 Friend friend = new Friend(name, bio, drawID);
                 friends.add(friend);
