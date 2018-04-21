@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState != null) {
-
+            //TODO saving things
         }
         else {
             String[] name_list = {"arya", "cersei", "daenerys", "jon", "jorah", "margaery",
@@ -34,12 +34,11 @@ public class MainActivity extends AppCompatActivity {
                 int drawID = getResources().getIdentifier(name, "drawable", getPackageName());
                 Friend friend = new Friend(name, bio, drawID);
                 friends.add(friend);
-                GridView gv = findViewById(R.id.friends_grid);
-                gv.setOnItemClickListener(new GridItemClickListener());
             }
 
             FriendsAdapter adapter = new FriendsAdapter(this, R.layout.grid_item, friends);
             GridView friend_grid = findViewById(R.id.friends_grid);
+            friend_grid.setOnItemClickListener(new GridItemClickListener());
             friend_grid.setAdapter(adapter);
 
         }
