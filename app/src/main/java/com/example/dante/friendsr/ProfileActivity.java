@@ -15,7 +15,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-
         Intent intent = getIntent();
         Friend retrievedFriend = (Friend) intent.getSerializableExtra("clicked_friend");
 

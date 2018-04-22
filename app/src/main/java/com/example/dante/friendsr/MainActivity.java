@@ -11,7 +11,8 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Friend> friends = new ArrayList<>();
+    private ArrayList<Friend> friends;
+    private FriendsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState != null) {
-            //TODO saving things
+            friends = (ArrayList<Friend>) savedInstanceState.getSerializable("friends");
         }
         else {
+            friends = new ArrayList<>();
+
             String[] name_list = {"arya", "cersei", "daenerys", "jon", "jorah", "margaery",
                                   "melisandre", "sansa", "tyrion"};
             for (String name : name_list) {
@@ -35,12 +38,36 @@ public class MainActivity extends AppCompatActivity {
                 Friend friend = new Friend(name, bio, drawID);
                 friends.add(friend);
             }
+        }
 
-            FriendsAdapter adapter = new FriendsAdapter(this, R.layout.grid_item, friends);
-            GridView friend_grid = findViewById(R.id.friends_grid);
-            friend_grid.setOnItemClickListener(new GridItemClickListener());
-            friend_grid.setAdapter(adapter);
 
+        update_UI();
+    }
+
+    private void update_UI() {
+        GridView friend_grid = findViewById(R.id.friends_grid);
+        adapter = new FriendsAdapter(this, R.layout.grid_item, friends);
+        friend_grid.invalidateViews();
+        friend_grid.setOnItemClickListener(new GridItemClickListener());
+        friend_grid.setAdapter(adapter);
+    }
+
+    public void new_profile(View v) {
+        Intent intent = new Intent(MainActivity.this, ProfileCreation.class);
+        intent.putExtra("friend_list", friends);
+        startActivityForResult(intent, 2);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2) {
+            if (data != null) {
+                friends = (ArrayList<Friend>) data.getSerializableExtra("friends_list");
+                update_UI();
+            }
         }
     }
 
@@ -54,7 +81,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
             intent.putExtra("clicked_friend", clickedFriend);
             startActivity(intent);
-
         }
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("friends", friends);
     }
 }
