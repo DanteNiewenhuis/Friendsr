@@ -90,12 +90,20 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == 3) {
             if (data != null) {
-                Friend friend = (Friend) data.getSerializableExtra("friend");
-                if (friend != null) {
-                    Intent intent = new Intent(MainActivity.this, ProfileCreation.class);
-                    intent.putExtra("mode", "edit");
-                    intent.putExtra("friend", friend);
-                    startActivityForResult(intent, 2);
+                String mode = (String) data.getSerializableExtra("mode");
+                if (mode.equals("edit")) {
+                    Friend friend = (Friend) data.getSerializableExtra("old_friend");
+                    if (friend != null) {
+                        Intent intent = new Intent(MainActivity.this, ProfileCreation.class);
+                        intent.putExtra("mode", "edit");
+                        intent.putExtra("old_friend", friend);
+                        startActivityForResult(intent, 2);
+                    }
+                }
+                if (mode.equals("remove")) {
+                    Friend friend = (Friend) data.getSerializableExtra("old_friend");
+                    remove_friend(friend);
+                    update_UI();
                 }
             }
         }

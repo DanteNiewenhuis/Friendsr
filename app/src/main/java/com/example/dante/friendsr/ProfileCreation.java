@@ -30,18 +30,17 @@ public class ProfileCreation extends AppCompatActivity {
 
         Intent intent = getIntent();
         mode = (String) intent.getSerializableExtra("mode");
-        retrieved_friend = (Friend) intent.getSerializableExtra("friend");
 
         if (mode.equals("edit")) {
-            Friend friend = (Friend) intent.getSerializableExtra("friend");
+            retrieved_friend = (Friend) intent.getSerializableExtra("old_friend");
 
             TextView name_input = findViewById(R.id.name_input);
             TextView bio_input = findViewById(R.id.bio_input);
             spinner = findViewById(R.id.picture_picker);
 
-            name_input.setText(friend.getName());
-            bio_input.setText(friend.getBio());
-            spinner.setSelection(adapter.getPosition(friend.getName()));
+            name_input.setText(retrieved_friend.getName());
+            bio_input.setText(retrieved_friend.getBio());
+            spinner.setSelection(adapter.getPosition(retrieved_friend.getName()));
         }
     }
 

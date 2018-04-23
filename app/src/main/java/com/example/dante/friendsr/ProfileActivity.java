@@ -45,7 +45,17 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void edit_profile(View v) {
         Intent intent = new Intent();
-        intent.putExtra("friend", retrievedFriend);
+        intent.putExtra("old_friend", retrievedFriend);
+        intent.putExtra("mode", "edit");
+
+        setResult(3, intent);
+        finish();
+    }
+
+    public void remove_profile(View v) {
+        Intent intent = new Intent();
+        intent.putExtra("old_friend", retrievedFriend);
+        intent.putExtra("mode", "remove");
 
         setResult(3, intent);
         finish();
