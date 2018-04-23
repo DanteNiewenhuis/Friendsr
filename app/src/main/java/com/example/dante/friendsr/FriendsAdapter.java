@@ -39,10 +39,4 @@ public class FriendsAdapter extends ArrayAdapter<Friend> {
         picture.setImageResource(drawID);
         return convertView;
     }
-
-    public void myAddAll(ArrayList<Friend> friends) {
-
-        this.friends.clear();
-        this.friends.addAll(friends);
-    }
 }

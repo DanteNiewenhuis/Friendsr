@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity {
+    private Friend retrievedFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +18,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Intent intent = getIntent();
-        Friend retrievedFriend = (Friend) intent.getSerializableExtra("clicked_friend");
+        retrievedFriend = (Friend) intent.getSerializableExtra("clicked_friend");
 
         TextView Name = findViewById(R.id.Name);
         String name_string = retrievedFriend.getName();
@@ -39,6 +41,14 @@ public class ProfileActivity extends AppCompatActivity {
         editor.apply();
 
         ratingBar.setOnRatingBarChangeListener(new RatingBarListener());
+    }
+
+    public void edit_profile(View v) {
+        Intent intent = new Intent();
+        intent.putExtra("friend", retrievedFriend);
+
+        setResult(3, intent);
+        finish();
     }
 
     private class RatingBarListener implements RatingBar.OnRatingBarChangeListener {

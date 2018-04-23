@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Friendsr</string>
+    <string-array name="name_arrays">
+        <item>arya</item>
+        <item>cersei</item>
+        <item>daenerys</item>
+        <item>jaime</item>
+        <item>jon</item>
+        <item>jorah</item>
+        <item>margaery</item>
+        <item>melisandre</item>
+        <item>sansa</item>
+        <item>tyrion</item>
+    </string-array>
 </resources>

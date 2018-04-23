@@ -11,6 +11,14 @@
     app:layout_gravity="center"
     tools:context=".ProfileActivity">
 
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="edit_profile"
+        android:text="Edit" />
+
     <ImageView
         android:id="@+id/Picture"
         android:layout_width="match_parent"

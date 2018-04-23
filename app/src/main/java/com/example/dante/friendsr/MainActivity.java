@@ -26,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
             friends = new ArrayList<>();
 
             String[] name_list = {"arya", "cersei", "daenerys", "jon", "jorah", "margaery",
-                                  "melisandre", "sansa", "tyrion"};
+                    "melisandre", "sansa", "tyrion"};
             for (String name : name_list) {
                 String bio = "This is a placeholder for the bio off " + name +
-                             ": Lorem ipsum dolor sit amet, consectetur adipiscing elit. In in neque " +
-                             "ac arcu venenatis ornare ut sit amet dolor. Pellentesque quis tellus " +
-                             "in ante placerat aliquet. Quisque eu risus eget metus ornare dignissim " +
-                             "ac vitae leo. Pellentesque sed sagittis nisl. Donec quis elementum " +
-                             "velit.";
+                        ": Lorem ipsum dolor sit amet, consectetur adipiscing elit. In in neque " +
+                        "ac arcu venenatis ornare ut sit amet dolor. Pellentesque quis tellus " +
+                        "in ante placerat aliquet. Quisque eu risus eget metus ornare dignissim " +
+                        "ac vitae leo. Pellentesque sed sagittis nisl. Donec quis elementum " +
+                        "velit.";
                 int drawID = getResources().getIdentifier(name, "drawable", getPackageName());
                 Friend friend = new Friend(name, bio, drawID);
                 friends.add(friend);
@@ -54,10 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void new_profile(View v) {
         Intent intent = new Intent(MainActivity.this, ProfileCreation.class);
-        intent.putExtra("friend_list", friends);
+        intent.putExtra("mode", "new");
         startActivityForResult(intent, 2);
 
     }
+
+    private void remove_friend(Friend old_friend) {
+        Log.d("remove_friend", "in function");
+        for (int i = 0; i < friends.size(); i++) {
+            Friend friend = friends.get(i);
+            if (friend.getName().equals(old_friend.getName())) {
+                friends.remove(i);
+            }
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -65,8 +76,27 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == 2) {
             if (data != null) {
-                friends = (ArrayList<Friend>) data.getSerializableExtra("friends_list");
+                Friend friend = (Friend) data.getSerializableExtra("friend");
+                Friend old_friend = (Friend) data.getSerializableExtra("old_friend");
+                if (old_friend != null) {
+                    remove_friend(old_friend);
+                    Log.d("profile_maker", "removing");
+                }
+                if (friend != null)
+                    friends.add(friend);
                 update_UI();
+            }
+        }
+
+        if (requestCode == 3) {
+            if (data != null) {
+                Friend friend = (Friend) data.getSerializableExtra("friend");
+                if (friend != null) {
+                    Intent intent = new Intent(MainActivity.this, ProfileCreation.class);
+                    intent.putExtra("mode", "edit");
+                    intent.putExtra("friend", friend);
+                    startActivityForResult(intent, 2);
+                }
             }
         }
     }
@@ -80,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
             intent.putExtra("clicked_friend", clickedFriend);
-            startActivity(intent);
+            startActivityForResult(intent, 3);
         }
     }
 
