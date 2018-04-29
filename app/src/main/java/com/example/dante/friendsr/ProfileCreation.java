@@ -20,17 +20,24 @@ public class ProfileCreation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_creation);
 
+        // get the spinner
         Spinner spinner = findViewById(R.id.picture_picker);
+
+        // create the adapter for the spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.name_arrays, R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
+        // set adapter and the onItemSelectedListener for the spinner
+        spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 
+        // get the intent and get the mode
         Intent intent = getIntent();
         mode = (String) intent.getSerializableExtra("mode");
 
+        // set the default values of the input boxes to the value of the profile if
+        // the mode is edit.
         if (mode.equals("edit")) {
             retrieved_friend = (Friend) intent.getSerializableExtra("old_friend");
 
@@ -45,31 +52,38 @@ public class ProfileCreation extends AppCompatActivity {
     }
 
     public void submit (View v) {
+        // get the Views
         TextView name_input = findViewById(R.id.name_input);
         TextView bio_input = findViewById(R.id.bio_input);
         Spinner spinner = findViewById(R.id.picture_picker);
 
+        // get the inputs
         String name = name_input.getText().toString();
         String bio = bio_input.getText().toString();
         String pic = spinner.getSelectedItem().toString();
-
         int drawID = getResources().getIdentifier(pic, "drawable", getPackageName());
 
+
+        // make a new friend
         Friend friend = new Friend(name, bio, drawID);
 
+        // make an intent with the new friend as extra
         Intent intent = new Intent();
         intent.putExtra("friend", friend);
 
+        // add the olf friend if the mode is edit.
         if (mode.equals("edit")) {
-            Log.d("submit_c", "add retrieved");
             intent.putExtra("old_friend", retrieved_friend);
         }
+
+        // set the result to the intent
         setResult(2, intent);
         finish();
     }
 
     private class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
 
+        // set the example pic to the selection in the spinner
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             String pic = parent.getItemAtPosition(pos).toString();
             int drawID = getResources().getIdentifier(pic, "drawable", getPackageName());
@@ -79,7 +93,6 @@ public class ProfileCreation extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
         }
     }
 }

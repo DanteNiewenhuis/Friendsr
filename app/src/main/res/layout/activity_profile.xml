@@ -46,7 +46,7 @@
         android:id="@+id/Name"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_weight="7"
+        android:layout_weight="30"
         android:text="TextView"
         android:textAlignment="center"
         android:textSize="24sp" />
@@ -63,7 +63,7 @@
         android:id="@+id/Bio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="15"
+        android:layout_weight="50"
         android:text="TextView"
         android:textAlignment="center" />
 

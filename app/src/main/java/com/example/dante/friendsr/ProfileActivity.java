@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity {
     private Friend retrievedFriend;
+    private String friend_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,29 +21,32 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         retrievedFriend = (Friend) intent.getSerializableExtra("clicked_friend");
 
+        // set the name
         TextView Name = findViewById(R.id.Name);
-        String name_string = retrievedFriend.getName();
-        Name.setText(name_string);
+        friend_name = retrievedFriend.getName();
+        Name.setText(friend_name);
 
+        // set the bio
         TextView Bio = findViewById(R.id.Bio);
         Bio.setText(retrievedFriend.getBio());
 
+        // set the image
         ImageView img = findViewById(R.id.Picture);
         img.setImageResource(retrievedFriend.getDrawableId());
 
+        // get the rating, if no rating has been given, the rating will be 0
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
-        float rating = prefs.getFloat("rating_" + name_string, 0);
+        float rating = prefs.getFloat("rating_" + friend_name, 0);
 
+        // get the rating
         RatingBar ratingBar = findViewById(R.id.ratingBar);
         ratingBar.setRating(rating);
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("name", name_string);
-        editor.apply();
-
+        // set the ratingbarlistener
         ratingBar.setOnRatingBarChangeListener(new RatingBarListener());
     }
 
+    // set and intent with mode "edit" and the retrieved friend as result 3.
     public void edit_profile(View v) {
         Intent intent = new Intent();
         intent.putExtra("old_friend", retrievedFriend);
@@ -52,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
+    // set and intent with mode "remove" and the retrieved friend as result 3.
     public void remove_profile(View v) {
         Intent intent = new Intent();
         intent.putExtra("old_friend", retrievedFriend);
@@ -63,14 +68,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private class RatingBarListener implements RatingBar.OnRatingBarChangeListener {
 
+        // changed the rating in the SharedPrefernces if the rating has been changed
         @Override
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
             SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
-            String name = prefs.getString("name", null);
 
-            if (name != null) {
+            if (friend_name != null) {
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putFloat("rating_" + name, rating);
+                editor.putFloat("rating_" + friend_name, rating);
                 editor.apply();
             }
         }
